@@ -20,4 +20,11 @@ test.describe('Login', () => {
         await page.getByRole('button', { name: 'Login' }).click();
         await expect(page.getByRole('banner').getByText('Paul Collings')).toBeVisible();
     })
+
+    test('should failed with wrong username and correct password', async ({ page }) => {
+        await page.getByRole('textbox', { name: 'username' }).fill(USERS_PASS[1][0]);
+        await page.getByRole('textbox', { name: 'password' }).fill(USERS_PASS[1][1]);
+        await page.getByRole('button', { name: 'Login' }).click();
+        await expect(page.getByRole('alert')).toContainText('Invalid credentials');
+    })
 });
