@@ -15,9 +15,8 @@ const USERS_PASS = [
 
 test.describe('Login', () => {
     test('should pass with correct username and password', async ({ page }) => {
-        await page.getByPlaceholder('Username').fill(USERS_PASS[0][0]);
-        await page.getByPlaceholder('Password').click();
-        await page.getByPlaceholder('Password').fill(USERS_PASS[0][1]);
+        await page.getByRole('textbox', { name: 'username' }).fill(USERS_PASS[0][0]);
+        await page.getByRole('textbox', { name: 'password' }).fill(USERS_PASS[0][1]);
         await page.getByRole('button', { name: 'Login' }).click();
         await expect(page.getByRole('banner').getByText('Paul Collings')).toBeVisible();
     })
