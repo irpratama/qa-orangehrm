@@ -8,9 +8,9 @@ const USERS_PASS = [
     ['Admin', 'admin123'], // correct
     ['Admin', 'admin234'], // wrong password
     ['Users', 'admin123'], // wrong username
-    ['admin', 'admin123'], // lower case
-    ['ADMIN', 'ADMIN123'], // upper case
-    ['Admin', 'Admin123'], // upper case
+    ['admin', 'admin123'], // username lower case
+    ['ADMIN', 'admin123'], // username upper case
+    ['Admin', 'ADMIN123'], // password upper case
 ];
 
 test.describe('Login', () => {
@@ -20,18 +20,27 @@ test.describe('Login', () => {
         await page.getByRole('button', { name: 'Login' }).click();
         await expect(page.getByRole('banner').getByText('Paul Collings')).toBeVisible();
     })
-
+    
     test('should failed with wrong username and correct password', async ({ page }) => {
         await page.getByRole('textbox', { name: 'username' }).fill(USERS_PASS[1][0]);
         await page.getByRole('textbox', { name: 'password' }).fill(USERS_PASS[1][1]);
         await page.getByRole('button', { name: 'Login' }).click();
         await expect(page.getByRole('alert')).toContainText('Invalid credentials');
     })
-
+    
     test('should failed with correct username and wrong password', async ({ page }) => {
         await page.getByRole('textbox', { name: 'username' }).fill(USERS_PASS[2][0]);
         await page.getByRole('textbox', { name: 'password' }).fill(USERS_PASS[2][1]);
         await page.getByRole('button', { name: 'Login' }).click();
         await expect(page.getByRole('alert')).toContainText('Invalid credentials');
     })
+});
+
+test.describe('Case Sensitive', () => {
+    test('Username lowercase should pass', async ({ page }) => {
+        await page.getByRole('textbox', { name: 'username' }).fill(USERS_PASS[3][0]);
+        await page.getByRole('textbox', { name: 'password' }).fill(USERS_PASS[3][1]);
+        await page.getByRole('button', { name: 'Login' }).click();
+        await expect(page.getByRole('banner').getByText('Paul Collings')).toBeVisible();
+    });
 });
