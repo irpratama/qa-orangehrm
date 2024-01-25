@@ -18,7 +18,7 @@ test.describe('Login', () => {
         await page.getByRole('textbox', { name: 'username' }).fill(USERS_PASS[0][0]);
         await page.getByRole('textbox', { name: 'password' }).fill(USERS_PASS[0][1]);
         await page.getByRole('button', { name: 'Login' }).click();
-        await expect(page.getByRole('banner').getByText('Paul Collings')).toBeVisible();
+        await expect(page.getByRole('heading', { name: 'Dashboard' })).toBeVisible();
     })
     
     test('should failed with wrong username and correct password', async ({ page }) => {
@@ -41,6 +41,13 @@ test.describe('Case Sensitive', () => {
         await page.getByRole('textbox', { name: 'username' }).fill(USERS_PASS[3][0]);
         await page.getByRole('textbox', { name: 'password' }).fill(USERS_PASS[3][1]);
         await page.getByRole('button', { name: 'Login' }).click();
-        await expect(page.getByRole('banner').getByText('Paul Collings')).toBeVisible();
+        await expect(page.getByRole('heading', { name: 'Dashboard' })).toBeVisible();
+    });
+
+    test('Username uppercase should pass', async ({ page }) => {
+        await page.getByRole('textbox', { name: 'username' }).fill(USERS_PASS[4][0]);
+        await page.getByRole('textbox', { name: 'password' }).fill(USERS_PASS[4][1]);
+        await page.getByRole('button', { name: 'Login' }).click();
+        await expect(page.getByRole('heading', { name: 'Dashboard' })).toBeVisible();
     });
 });
